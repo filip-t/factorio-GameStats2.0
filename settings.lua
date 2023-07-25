@@ -22,14 +22,14 @@ data:extend {
     },
     {
         type = "bool-setting",
-        name = "gamestats_show_player_deaths_count",
+        name = "gamestats_show_dead_players_count",
         setting_type = "runtime-per-user",
         default_value = true,
         order="04"
     },
     {
         type = "bool-setting",
-        name = "gamestats_player_deaths_in_right_column",
+        name = "gamestats_dead_players_count_in_right_column",
         setting_type = "runtime-per-user",
         default_value = false,
         order="05"

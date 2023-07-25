@@ -42,10 +42,6 @@ function Logic.setting_changed(event)
 
     local settings = game.players[event.player_index].mod_settings
 
-    for name, setting in pairs(settings) do
-        game.print(name)
-    end
-
     -- Тут будет обработка всех изменений в настройках
 
     if event.setting == "gamestats_player_deaths_in_right_column" then
@@ -60,16 +56,9 @@ function Logic.setting_changed(event)
 end
 
 function Logic.tick_60(event)
-    -- if Logic.i < 3 then
-    --     for _, player in pairs(game.connected_players) do
-    --         local container = Interface.get_container(player)
-
-    --         if container then
-    --             game.print(container.name)
-    --         end
-    --     end
-    --     Logic.i = Logic.i + 1
-    -- end
+    for _, player in pairs(game.connected_players) do
+        Interface.update(player)
+    end
 end
 
 
