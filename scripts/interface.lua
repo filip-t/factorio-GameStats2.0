@@ -1,19 +1,21 @@
 local ModGui = require("__core__/lualib/mod-gui")
 
-local Interface = {}
-Interface.top_frame_name = "GameStats__top_frame"
-Interface.inner_frame_name = "GameStats__inner_frame"
-Interface.container_name = "GameStats__container"
-Interface.left_column_name = "GameStats__left_column"
-Interface.right_column_name = "GameStats__right_column"
-Interface.game_time_name = "GameStats__game_time"
-Interface.evolution_percentage_name = "GameStats__evolution_percentage"
-Interface.online_players_count_name = "GameStats__online_players_count"
-Interface.dead_players_count_name = "GameStats__dead_players_count"
-Interface.killed_biters_count_name = "GameStats__killed_biters_count"
-Interface.killed_worms_count_name = "GameStats__killed_worms_count"
-Interface.destroyed_nests_count_name = "GameStats__destroyed_nests_count"
-Interface.killed_enemy_count_name = "GameStats__killed_enemy_count"
+local Interface = {
+    top_frame_name = "GameStats__top_frame",
+    inner_frame_name = "GameStats__inner_frame",
+    container_name = "GameStats__container",
+    left_column_name = "GameStats__left_column",
+    right_column_name = "GameStats__right_column",
+    game_time_name = "GameStats__game_time",
+    evolution_percentage_name = "GameStats__evolution_percentage",
+    online_players_count_name = "GameStats__online_players_count",
+    dead_players_count_name = "GameStats__dead_players_count",
+    killed_biters_count_name = "GameStats__killed_biters_count",
+    killed_worms_count_name = "GameStats__killed_worms_count",
+    destroyed_nests_count_name = "GameStats__destroyed_nests_count",
+    killed_enemy_count_name = "GameStats__killed_enemy_count"
+}
+Interface.do_align = {}
 
 local self = Interface
 
@@ -63,7 +65,7 @@ function Interface.get_container(player)
             button_flow = player.gui.top
         end
     else
-        local button_flow = ModGui.get_button_flow(player)
+        button_flow = ModGui.get_button_flow(player)
     end
 
     local container = button_flow[self.container_name] or button_flow.add {
@@ -73,6 +75,61 @@ function Interface.get_container(player)
     self.align(player)
 
     return container
+end
+
+function Interface.align(player)
+    if not player then
+        return
+    end
+
+    if not self.do_align[player.index] then
+        return
+    end
+    
+    self.do_align[player.index] = nil
+
+
+    local on_left = player.mod_settings.gamestats_always_on_left.value
+    local on_right = player.mod_settings.gamestats_always_on_right.value
+
+    if not on_left and not on_right then
+        return
+    end
+
+    local parent, container
+    
+    if player.mod_settings.gamestats_show_separately.value then
+        parent = player.gui.top
+
+        if player.mod_settings.gamestats_show_background.value then
+            container = parent[self.top_frame_name]
+        else
+            container = parent[self.container_name]
+        end
+    else
+        parent = ModGui.get_button_flow(player)
+        container = parent[self.container_name]
+    end
+
+    if not container then
+        return
+    end
+
+
+    local container_index = container.get_index_in_parent()
+    local children_size = #parent.children
+
+    -- game.print({"", parent.name, " / ", container.name})
+
+    if on_left then
+        if container_index ~= 1 then
+            parent.swap_children(container_index, 1)
+        end
+    elseif on_right then
+        if container_index ~= children_size then
+            parent.swap_children(container_index, children_size)
+        end
+    end
 end
 
 function Interface.update(player)
@@ -253,7 +310,9 @@ function Interface.update(player)
     if settings.gamestats_show_dead_players_count.value then
         local column
 
-        if settings.gamestats_dead_players_count_in_right_column.value then
+        if settings.gamestats_merge_kills.value
+        or settings.gamestats_dead_players_count_in_right_column.value
+        then
             column = right_column
         else
             column = left_column
@@ -271,47 +330,6 @@ function Interface.update(player)
         else
             dead_players_count_element.caption = dead_players_count_caption
         end
-    end
-end
-
-function Interface.align(player)
-    if not player then
-        return
-    end
-
-    local on_left = player.mod_settings.gamestats_always_on_left.value
-    local on_right = player.mod_settings.gamestats_always_on_right.value
-
-    if not on_left or not on_right then
-        return
-    end
-
-    local parent, container
-    
-    if player.mod_settings.gamestats_show_separately.value then
-        parent = player.gui.top
-
-        if player.mod_settings.gamestats_show_background.value then
-            container = parent[self.top_frame_name]
-        else
-            container = parent[self.container_name]
-        end
-    else
-        parent = ModGui.get_button_flow(player)
-        container = parent[self.container_name]
-    end
-
-    if not container then
-        return
-    end
-
-    local container_index = container.get_index_in_parent()
-    local children_size = #container.children
-
-    if on_left and container_index ~= 1 then
-        parent.swap_children(container_index, 1)
-    elseif on_right and container_index ~= children_size then
-        parent.swap_children(container_index, children_size)
     end
 end
 
