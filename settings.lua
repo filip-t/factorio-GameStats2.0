@@ -64,30 +64,23 @@ data:extend {
     },
     {
         type = "bool-setting",
-        name = "gamestats_show_separately",
+        name = "gamestats_show_background",
         setting_type = "runtime-per-user",
         default_value = true,
         order="10"
     },
     {
         type = "bool-setting",
-        name = "gamestats_show_background",
+        name = "gamestats_always_on_left",
         setting_type = "runtime-per-user",
         default_value = true,
         order="11"
     },
     {
         type = "bool-setting",
-        name = "gamestats_always_on_left",
-        setting_type = "runtime-per-user",
-        default_value = true,
-        order="12"
-    },
-    {
-        type = "bool-setting",
         name = "gamestats_always_on_right",
         setting_type = "runtime-per-user",
         default_value = false,
-        order="13"
+        order="12"
     }
 }

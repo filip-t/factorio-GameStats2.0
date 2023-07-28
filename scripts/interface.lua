@@ -1,5 +1,3 @@
-local ModGui = require("__core__/lualib/mod-gui")
-
 local Interface = {
     top_frame_name = "GameStats__top_frame",
     inner_frame_name = "GameStats__inner_frame",
@@ -20,11 +18,7 @@ Interface.do_align = {}
 local self = Interface
 
 
-local function get_button_flow(player)
-    if not player then
-        return
-    end
-
+local function get_frame(player)
     local outer_frame = player.gui.top[self.top_frame_name] or player.gui.top.add {
         type="frame", name=self.top_frame_name, direction="horizontal", style="quick_bar_window_frame"
     }
@@ -58,14 +52,10 @@ function Interface.get_container(player)
 
     local button_flow
 
-    if player.mod_settings.gamestats_show_separately.value then
-        if player.mod_settings.gamestats_show_background.value then
-            button_flow = get_button_flow(player)
-        else
-            button_flow = player.gui.top
-        end
+    if player.mod_settings.gamestats_show_background.value then
+        button_flow = get_frame(player)
     else
-        button_flow = ModGui.get_button_flow(player)
+        button_flow = player.gui.top
     end
 
     local container = button_flow[self.container_name] or button_flow.add {
@@ -96,18 +86,12 @@ function Interface.align(player)
         return
     end
 
-    local parent, container
-    
-    if player.mod_settings.gamestats_show_separately.value then
-        parent = player.gui.top
+    local parent = player.gui.top
+    local container
 
-        if player.mod_settings.gamestats_show_background.value then
-            container = parent[self.top_frame_name]
-        else
-            container = parent[self.container_name]
-        end
+    if player.mod_settings.gamestats_show_background.value then
+        container = parent[self.top_frame_name]
     else
-        parent = ModGui.get_button_flow(player)
         container = parent[self.container_name]
     end
 
@@ -118,8 +102,6 @@ function Interface.align(player)
 
     local container_index = container.get_index_in_parent()
     local children_size = #parent.children
-
-    -- game.print({"", parent.name, " / ", container.name})
 
     if on_left then
         if container_index ~= 1 then
@@ -333,17 +315,21 @@ function Interface.update(player)
     end
 end
 
-function Interface.remove(player)
+function Interface.remove_element(container, column_name, element_name)
+    if not container[column_name] then
+        return
+    end
+
+    if container[column_name][element_name] then
+        container[column_name][element_name].destroy()
+    end
+end
+
+function Interface.remove_gui(player)
     if player.gui.top[self.top_frame_name] then
         player.gui.top[self.top_frame_name].destroy()
     elseif player.gui.top[self.container_name] then
         player.gui.top[self.container_name].destroy()
-    else
-        local button_flow = ModGui.get_button_flow(player)
-
-        if button_flow[self.container_name] then
-            button_flow[self.container_name].destroy()
-        end
     end
 end
 
