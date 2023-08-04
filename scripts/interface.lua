@@ -18,6 +18,19 @@ Interface.do_align = {}
 local self = Interface
 
 
+local function orfo_index(num, vars)
+    local last_digit = num % 10
+
+    if last_digit == 1 then
+        return 1
+    elseif last_digit >=2 and last_digit <= 4 then
+        return 2
+    end
+
+    return 3
+end
+
+
 local function get_frame(player)
     local outer_frame = player.gui.top[self.top_frame_name] or player.gui.top.add {
         type="frame", name=self.top_frame_name, direction="horizontal", style="quick_bar_window_frame"
@@ -75,7 +88,7 @@ function Interface.align(player)
     if not self.do_align[player.index] then
         return
     end
-    
+
     self.do_align[player.index] = nil
 
 
@@ -125,18 +138,60 @@ function Interface.update(player)
         return
     end
 
+    local settings = player.mod_settings
+
 
     local game_seconds = math.floor(game.ticks_played / 60)
+
+    -- For testing hours > 0
+    -- game_seconds = game_seconds + 16 * 3600
+
+    -- For testing days > 0
+    -- game_seconds = game_seconds + (128 * 24 + 16) * 3600
+
+    local days = 0
     local hours = 0
     local minutes = 0
     local seconds = 0
+
+    local time_format = settings.gamestats_time_format.value
+
+    if time_format ~= "hours" then
+        days = math.floor(game_seconds / (3600*24))
+        game_seconds = game_seconds % (3600*24)
+    end
 
     hours = math.floor(game_seconds / 3600)
     game_seconds = game_seconds % 3600
     minutes = math.floor(game_seconds / 60)
     seconds = game_seconds % 60
 
-    local game_time = string.format("%d:%02d:%02d", hours, minutes, seconds)
+    local game_time
+
+    if time_format ~= "hours" then
+        if time_format == "words" then
+            game_time = {""}
+
+            if days > 0 then
+                table.insert(game_time, {"interface.orfo_days_"..orfo_index(days), days})
+                table.insert(game_time, " ")
+            end
+
+            if hours > 0 then
+                table.insert(game_time, {"interface.orfo_hours_"..orfo_index(hours), hours})
+                table.insert(game_time, " ")
+            end
+
+            table.insert(game_time, {"interface.orfo_minutes_"..orfo_index(minutes), minutes})
+        elseif time_format == "slashes" then
+            game_time = string.format("%d/%02d/%02d", days, hours, minutes)
+        else
+            -- Fallback for unusual setting value. IDK how it's possible, but...
+            game_time = "WRONG FORMAT"
+        end
+    else
+        game_time = string.format("%d:%02d:%02d", hours, minutes, seconds)
+    end
 
     -- this nonsense is because string.format(%.4f) is not safe in MP across platforms, but integer math is
     local evolution_percentage = game.forces.enemy.evolution_factor * 100
@@ -178,8 +233,6 @@ function Interface.update(player)
     right_column.style.right_margin = 5
 
 
-    local settings = player.mod_settings
-
     if settings.gamestats_show_game_time.value then
         local game_time_element = left_column[self.game_time_name]
         local game_time_value = {"interface.game_time", game_time}
@@ -210,7 +263,6 @@ function Interface.update(player)
         end
     end
 
-    
     if settings.gamestats_merge_kills.value then
         local killed_enemy_count_element = right_column[self.killed_enemy_count_name]
         local killed_enemy_count_caption = {
@@ -242,7 +294,7 @@ function Interface.update(player)
                 killed_biters_count_element.caption = killed_biters_count_caption
             end
         end
-            
+
         if settings.gamestats_show_killed_worms_count.value then
             local killed_worms_count_element = right_column[self.killed_worms_count_name]
             local killed_worms_count_caption = {"interface.killed_worms_count", killed_worms_count}

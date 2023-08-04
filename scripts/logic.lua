@@ -13,7 +13,7 @@ end
 function Logic.player_joined_game(event)
     Interface.remove_gui(game.players[event.player_index])
     Interface.do_align[event.player_index] = true
-    Interface.update(game.players[event.player_index]) 
+    Interface.update(game.players[event.player_index])
 end
 
 function Logic.tick_60(event)
@@ -40,7 +40,7 @@ function Logic.setting_changed(event)
     if not Logic.handlers[event.setting] then
         return
     end
-    
+
     Logic.handlers[event.setting](game.players[event.player_index])
 end
 
