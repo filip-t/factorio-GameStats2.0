@@ -14,7 +14,6 @@ local Interface = {
     destroyed_nests_count_name = "GameStats__destroyed_nests_count",
     killed_enemy_count_name = "GameStats__killed_enemy_count"
 }
-Interface.do_align = {}
 
 local self = Interface
 local thousand_separators = {
@@ -100,8 +99,6 @@ function Interface.get_container(player)
         type="flow", name=self.container_name, direction="horizontal"
     }
 
-    self.align(player)
-
     return container
 end
 
@@ -110,17 +107,9 @@ function Interface.align(player)
         return
     end
 
-    if not self.do_align[player.index] then
-        return
-    end
+    local align = player.mod_settings.gamestats_align.value
 
-    self.do_align[player.index] = nil
-
-
-    local on_left = player.mod_settings.gamestats_always_on_left.value
-    local on_right = player.mod_settings.gamestats_always_on_right.value
-
-    if not on_left and not on_right then
+    if align == "no" then
         return
     end
 
@@ -137,15 +126,15 @@ function Interface.align(player)
         return
     end
 
-
     local container_index = container.get_index_in_parent()
-    local children_size = #parent.children
 
-    if on_left then
+    if align == "left" then
         if container_index ~= 1 then
             parent.swap_children(container_index, 1)
         end
-    elseif on_right then
+    elseif align == "right" then
+        local children_size = #parent.children
+
         if container_index ~= children_size then
             parent.swap_children(container_index, children_size)
         end
@@ -420,10 +409,12 @@ function Interface.update(player)
     if settings.gamestats_show_dead_players_count.value then
         local column
 
-        if settings.gamestats_dead_players_count_column.value == "left" then
-            column = left_column
-        elseif settings.gamestats_dead_players_count_column.value == "right" then
+        if settings.gamestats_merge_kills.value
+        or settings.gamestats_dead_players_count_column.value == "right"
+        then
             column = right_column
+        elseif settings.gamestats_dead_players_count_column.value == "left" then
+            column = left_column
         else
             -- Fallback for unusual setting value. IDK how is thishis possible, but...
             column = left_column

@@ -20,11 +20,11 @@ function Logic.tick_60(event)
     for _, player in pairs(game.connected_players) do
         if Logic.rebuild[player.index] then
             Interface.remove_gui(player)
-            Interface.do_align[player.index] = true
             Logic.rebuild[player.index] = nil
         end
 
         Interface.update(player)
+        Interface.align(player)
     end
 end
 
@@ -196,33 +196,6 @@ function Logic.show_background(player)
     Logic.rebuild[player.index] = true
 end
 
-function Logic.always_on_left(player)
-    local settings = player.mod_settings
-
-    if settings.gamestats_always_on_left.value then
-        if settings.gamestats_always_on_right.value then
-            settings.gamestats_always_on_right = {value = false}
-        end
-
-        Interface.do_align[player.index] = true
-        Interface.align(player)
-    end
-end
-
-function Logic.always_on_right(player)
-    local settings = player.mod_settings
-
-    if settings.gamestats_always_on_right.value then
-        if settings.gamestats_always_on_left.value then
-            settings.gamestats_always_on_left = {value = false}
-        end
-
-        Interface.do_align[player.index] = true
-        Interface.align(player)
-    end
-end
-
-
 Logic.handlers = {
     gamestats_show_game_time = Logic.show_game_time,
     gamestats_show_evolution_percentage = Logic.show_evolution_percentage,
@@ -235,8 +208,7 @@ Logic.handlers = {
     gamestats_show_destroyed_nests_count = Logic.show_destroyed_nests_count,
     gamestats_merge_kills = Logic.merge_kills,
     gamestats_show_background = Logic.show_background,
-    gamestats_always_on_left = Logic.always_on_left,
-    gamestats_always_on_right = Logic.always_on_right
+    gamestats_align = Interface.align
 }
 
 

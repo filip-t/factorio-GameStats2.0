@@ -94,17 +94,11 @@ data:extend {
         order="13"
     },
     {
-        type = "bool-setting",
-        name = "gamestats_always_on_left",
+        type = "string-setting",
+        name = "gamestats_align",
         setting_type = "runtime-per-user",
-        default_value = true,
+        default_value = "no",
+        allowed_values = {"no", "left", "right"},
         order="14"
-    },
-    {
-        type = "bool-setting",
-        name = "gamestats_always_on_right",
-        setting_type = "runtime-per-user",
-        default_value = false,
-        order="15"
     }
 }
