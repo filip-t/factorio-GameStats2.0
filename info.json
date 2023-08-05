@@ -1,9 +1,9 @@
 {
   "name": "GameStats",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "title": "Game Stats",
   "author": "Ajick",
-  "description": "Evolution and Killed byters statistics Indicator",
+  "description": "The indicator of evolution, the number of killed biters and more",
   "factorio_version": "1.1",
   "dependencies": ["base >= 1.1.87"]
 }

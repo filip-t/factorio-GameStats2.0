@@ -1,10 +1,23 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+  Features:
+    - Added new formats to display game time.
+    - Added new formats to display killed counts.
+    - Added a field that displays the amount of polution in the current chunk.
+
+  Changes:
+    - Player deaths column setting is now a dropdown list.
+    - Align statistics setting now is dropdown list.
+
+  Bugfixes:
+    - Fixed the player death field is duplicated when the display column setting are changed.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
-Date: 28. 07. 2023
   Bugfixes:
     - Fixed the crash of the game when other mods use "on_nth_tick" events.
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
-Date: 27. 07. 2023
-    - Initial release
+  Features:
+    - Initial release.
