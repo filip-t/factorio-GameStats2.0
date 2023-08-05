@@ -43,10 +43,11 @@ data:extend {
         order="06"
     },
     {
-        type = "bool-setting",
-        name = "gamestats_dead_players_count_in_right_column",
+        type = "string-setting",
+        name = "gamestats_dead_players_count_column",
         setting_type = "runtime-per-user",
-        default_value = false,
+        default_value = "left",
+        allowed_values = {"left", "right"},
         order="07"
     },
     {

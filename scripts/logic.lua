@@ -100,31 +100,38 @@ function Logic.show_dead_players_count(player)
         Logic.rebuild[player.index] = true
     else
         local container = Interface.get_container(player)
-        Interface.remove_element(container, Interface.left_column_name, Interface.dead_players_count_name)
-        Interface.remove_element(container, Interface.right_column_name, Interface.dead_players_count_name)
+
+        if settings.gamestats_dead_players_count_column.value == "left" then
+            Interface.remove_element(container, Interface.left_column_name, Interface.dead_players_count_name)
+        elseif settings.gamestats_dead_players_count_column.value == "right" then
+            Interface.remove_element(container, Interface.right_column_name, Interface.dead_players_count_name)
+        end
     end
 end
 
-function Logic.dead_players_count_in_right_column(player)
-    if not game.is_multiplayer() then
+function Logic.dead_players_count_column(player)
+    local settings = player.mod_settings
+
+    if not settings.gamestats_show_dead_players_count.value then
         return
     end
 
-    local settings = player.mod_settings
-
-    if settings.gamestats_show_dead_players_count.value then
-        Logic.rebuild[player.index] = true
-    else
+    if settings.gamestats_merge_kills.value
+    and settings.gamestats_dead_players_count_column.value ~= "left"
+    then
+        settings.gamestats_dead_players_count_column = {value = "left"}
         return
     end
 
     local container = Interface.get_container(player)
 
-    if settings.gamestats_dead_players_count_in_right_column.value then
-        Interface.remove_element(container, Interface.left_column_name, Interface.dead_players_count_name)
-    else
+    if settings.gamestats_dead_players_count_column.value == "left" then
         Interface.remove_element(container, Interface.right_column_name, Interface.dead_players_count_name)
+    elseif settings.gamestats_dead_players_count_column.value == "right" then
+        Interface.remove_element(container, Interface.left_column_name, Interface.dead_players_count_name)
     end
+
+    Logic.rebuild[player.index] = true
 end
 
 function Logic.show_killed_biters_count(player)
@@ -164,23 +171,23 @@ function Logic.merge_kills(player)
     local settings = player.mod_settings
     local container = Interface.get_container(player)
 
-    Logic.rebuild[player.index] = true
-
     if settings.gamestats_merge_kills.value then
         Interface.remove_element(container, Interface.right_column_name, Interface.killed_biters_count_name)
         Interface.remove_element(container, Interface.right_column_name, Interface.killed_worms_count_name)
         Interface.remove_element(container, Interface.right_column_name, Interface.destroyed_nests_count_name)
 
-        if game.is_multiplayer() and not settings.gamestats_dead_players_count_in_right_column.value then
+        if settings.gamestats_dead_players_count_column.value == "left" then
             Interface.remove_element(container, Interface.left_column_name, Interface.dead_players_count_name)
         end
     else
         Interface.remove_element(container, Interface.right_column_name, Interface.killed_enemy_count_name)
 
-        if game.is_multiplayer() and not settings.gamestats_dead_players_count_in_right_column.value then
+        if settings.gamestats_dead_players_count_column.value == "left" then
             Interface.remove_element(container, Interface.right_column_name, Interface.dead_players_count_name)
         end
     end
+
+    Logic.rebuild[player.index] = true
 end
 
 function Logic.show_background(player)
@@ -222,7 +229,7 @@ Logic.handlers = {
     gamestats_show_online_players_count = Logic.show_online_players_count,
     gamestats_show_pollution = Logic.show_pollution,
     gamestats_show_dead_players_count = Logic.show_dead_players_count,
-    gamestats_dead_players_count_in_right_column = Logic.dead_players_count_in_right_column,
+    gamestats_dead_players_count_column = Logic.dead_players_count_column,
     gamestats_show_killed_biters_count = Logic.show_killed_biters_count,
     gamestats_show_killed_worms_count = Logic.show_killed_worms_count,
     gamestats_show_destroyed_nests_count = Logic.show_destroyed_nests_count,

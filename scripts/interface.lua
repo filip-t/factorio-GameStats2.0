@@ -210,7 +210,7 @@ function Interface.update(player)
         elseif time_format == "slashes" then
             game_time = string.format("%d/%02d/%02d", days, hours, minutes)
         else
-            -- Fallback for unusual setting value. IDK how it's possible, but...
+            -- Fallback for unusual setting value. IDK how is this possible, but...
             game_time = "WRONG FORMAT"
         end
     else
@@ -420,11 +420,12 @@ function Interface.update(player)
     if settings.gamestats_show_dead_players_count.value then
         local column
 
-        if settings.gamestats_merge_kills.value
-        or settings.gamestats_dead_players_count_in_right_column.value
-        then
+        if settings.gamestats_dead_players_count_column.value == "left" then
+            column = left_column
+        elseif settings.gamestats_dead_players_count_column.value == "right" then
             column = right_column
         else
+            -- Fallback for unusual setting value. IDK how is thishis possible, but...
             column = left_column
         end
 
@@ -444,6 +445,10 @@ function Interface.update(player)
 end
 
 function Interface.remove_element(container, column_name, element_name)
+    if not container then
+        return
+    end
+
     if not container[column_name] then
         return
     end
