@@ -71,24 +71,32 @@ data:extend {
         order="10"
     },
     {
-        type = "bool-setting",
-        name = "gamestats_show_background",
+        type = "string-setting",
+        name = "gamestats_thousand_separator",
         setting_type = "runtime-per-user",
-        default_value = true,
+        default_value = "no",
+        allowed_values = {"no", "space", "comma"},
         order="11"
     },
     {
         type = "bool-setting",
-        name = "gamestats_always_on_left",
+        name = "gamestats_show_background",
         setting_type = "runtime-per-user",
         default_value = true,
         order="12"
     },
     {
         type = "bool-setting",
+        name = "gamestats_always_on_left",
+        setting_type = "runtime-per-user",
+        default_value = true,
+        order="13"
+    },
+    {
+        type = "bool-setting",
         name = "gamestats_always_on_right",
         setting_type = "runtime-per-user",
         default_value = false,
-        order="13"
+        order="14"
     }
 }

@@ -16,6 +16,10 @@ local Interface = {
 Interface.do_align = {}
 
 local self = Interface
+local thousand_separators = {
+    space = " ",
+    comma = ","
+}
 
 
 local function orfo_index(num, vars)
@@ -28,6 +32,27 @@ local function orfo_index(num, vars)
     end
 
     return 3
+end
+
+local function separate_thousands(number, separator)
+    if number < 1000 then
+        return number
+    end
+
+    local triads = {}
+
+    while true do
+        table.insert(triads, 1, string.format("%03d", number % 1000))
+
+        number = math.floor(number / 1000)
+
+        if number < 1000 then
+            table.insert(triads, 1, number % 1000)
+            break
+        end
+    end
+
+    return table.concat(triads, separator)
 end
 
 
@@ -193,7 +218,7 @@ function Interface.update(player)
         game_time = string.format("%d:%02d:%02d", hours, minutes, seconds)
     end
 
-    -- this nonsense is because string.format(%.4f) is not safe in MP across platforms, but integer math is
+    -- This nonsense is because string.format(%.4f) is not safe in MP across platforms, but integer math is
     local evolution_percentage = game.forces.enemy.evolution_factor * 100
     local whole_number = math.floor(evolution_percentage)
 
@@ -216,6 +241,15 @@ function Interface.update(player)
         end
     end
 
+    -- Random numbers for testing
+
+    -- killed_biters_count = killed_biters_count + 342000
+    -- killed_worms_count = killed_worms_count + 56000
+    -- destroyed_nests_count = destroyed_nests_count + 3000
+
+    -- killed_biters_count = killed_biters_count + 256000000
+    -- killed_worms_count = killed_worms_count + 17000000
+    -- destroyed_nests_count = destroyed_nests_count + 5000000
 
     local left_column = container[self.left_column_name] or container.add {
         type = "flow",
@@ -263,12 +297,17 @@ function Interface.update(player)
         end
     end
 
+    local thousand_separator = thousand_separators[settings.gamestats_thousand_separator.value]
+
     if settings.gamestats_merge_kills.value then
+        local killed_sum = killed_biters_count + killed_worms_count + destroyed_nests_count
+
+        if thousand_separator then
+            killed_sum = separate_thousands(killed_sum, thousand_separator)
+        end
+
         local killed_enemy_count_element = right_column[self.killed_enemy_count_name]
-        local killed_enemy_count_caption = {
-            "interface.killed_enemy_count",
-            killed_biters_count + killed_worms_count + destroyed_nests_count
-        }
+        local killed_enemy_count_caption = {"interface.killed_enemy_count", killed_sum}
 
         if not killed_enemy_count_element then
             right_column.add {
@@ -281,6 +320,10 @@ function Interface.update(player)
         end
     else
         if settings.gamestats_show_killed_biters_count.value then
+            if thousand_separator then
+                killed_biters_count = separate_thousands(killed_biters_count, thousand_separator)
+            end
+
             local killed_biters_count_element = right_column[self.killed_biters_count_name]
             local killed_biters_count_caption = {"interface.killed_biters_count", killed_biters_count}
 
@@ -296,6 +339,10 @@ function Interface.update(player)
         end
 
         if settings.gamestats_show_killed_worms_count.value then
+            if thousand_separator then
+                killed_worms_count = separate_thousands(killed_worms_count, thousand_separator)
+            end
+
             local killed_worms_count_element = right_column[self.killed_worms_count_name]
             local killed_worms_count_caption = {"interface.killed_worms_count", killed_worms_count}
 
@@ -311,6 +358,10 @@ function Interface.update(player)
         end
 
         if settings.gamestats_show_destroyed_nests_count.value then
+            if thousand_separator then
+                destroyed_nests_count = separate_thousands(destroyed_nests_count, thousand_separator)
+            end
+
             local destroyed_nests_count_element = right_column[self.destroyed_nests_count_name]
             local destroyed_nests_count_caption = {"interface.destroyed_nests_count", destroyed_nests_count}
 
