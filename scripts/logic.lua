@@ -6,14 +6,14 @@ Logic.rebuild = {}
 
 
 function Logic.player_created(event)
-    Interface.do_align[event.player_index] = true
     Interface.update(game.players[event.player_index])
+    Interface.align(game.players[event.player_index])
 end
 
 function Logic.player_joined_game(event)
     Interface.remove_gui(game.players[event.player_index])
-    Interface.do_align[event.player_index] = true
     Interface.update(game.players[event.player_index])
+    Interface.align(game.players[event.player_index])
 end
 
 function Logic.tick_60(event)
@@ -192,7 +192,6 @@ end
 
 function Logic.show_background(player)
     Interface.remove_gui(player)
-    Interface.do_align[player.index] = true
     Logic.rebuild[player.index] = true
 end
 

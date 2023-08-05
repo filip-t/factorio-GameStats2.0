@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+  Bugfixes:
+    - Fixed the crash of the game due to a deleted table field.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.0.2
   Features:
     - Added new formats to display game time.
