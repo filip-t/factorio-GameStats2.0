@@ -7,6 +7,7 @@ local Interface = {
     game_time_name = "GameStats__game_time",
     evolution_percentage_name = "GameStats__evolution_percentage",
     online_players_count_name = "GameStats__online_players_count",
+    pollution_name = "GameStats__pollution",
     dead_players_count_name = "GameStats__dead_players_count",
     killed_biters_count_name = "GameStats__killed_biters_count",
     killed_worms_count_name = "GameStats__killed_worms_count",
@@ -54,7 +55,6 @@ local function separate_thousands(number, separator)
 
     return table.concat(triads, separator)
 end
-
 
 local function get_frame(player)
     local outer_frame = player.gui.top[self.top_frame_name] or player.gui.top.add {
@@ -165,7 +165,6 @@ function Interface.update(player)
 
     local settings = player.mod_settings
 
-
     local game_seconds = math.floor(game.ticks_played / 60)
 
     -- For testing hours > 0
@@ -225,6 +224,17 @@ function Interface.update(player)
     evolution_percentage = string.format("%d.%04d", whole_number, math.floor((evolution_percentage - whole_number) * 10000))
 
     local online_players_count = #game.connected_players
+
+    local pollution = 0
+
+    if player.character then
+        local surface = player.character.surface
+        local position = player.character.position
+
+        pollution = surface.get_pollution(position)
+        pollution = math.floor(pollution * 100) / 100
+    end
+
     local dead_players_count = player.force.kill_count_statistics.output_counts["character"] or 0
 
     local killed_biters_count = 0
@@ -294,6 +304,21 @@ function Interface.update(player)
             }
         else
             evolution_percentage_element.caption = evolution_percentage_value
+        end
+    end
+
+    if settings.gamestats_show_pollution.value then
+        local pollution_element = left_column[self.pollution_name]
+        local pollution_caption = {"interface.pollution", pollution}
+
+        if not pollution_element then
+            left_column.add {
+                type = "label",
+                name = self.pollution_name,
+                caption = pollution_caption
+            }
+        else
+            pollution_element.caption = pollution_caption
         end
     end
 

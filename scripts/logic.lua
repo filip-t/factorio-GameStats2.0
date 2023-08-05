@@ -82,6 +82,17 @@ function Logic.show_online_players_count(player)
     end
 end
 
+function Logic.show_pollution(player)
+    local settings = player.mod_settings
+
+    if settings.gamestats_show_pollution.value then
+        Logic.rebuild[player.index] = true
+    else
+        local container = Interface.get_container(player)
+        Interface.remove_element(container, Interface.left_column_name, Interface.pollution_name)
+    end
+end
+
 function Logic.show_dead_players_count(player)
     local settings = player.mod_settings
 
@@ -209,6 +220,7 @@ Logic.handlers = {
     gamestats_show_game_time = Logic.show_game_time,
     gamestats_show_evolution_percentage = Logic.show_evolution_percentage,
     gamestats_show_online_players_count = Logic.show_online_players_count,
+    gamestats_show_pollution = Logic.show_pollution,
     gamestats_show_dead_players_count = Logic.show_dead_players_count,
     gamestats_dead_players_count_in_right_column = Logic.dead_players_count_in_right_column,
     gamestats_show_killed_biters_count = Logic.show_killed_biters_count,
