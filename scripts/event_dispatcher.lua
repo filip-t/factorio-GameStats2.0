@@ -1,8 +1,8 @@
 local self = {
-    on_init = {}
-    on_load = {}
-    on_configuration_changed = {}
-    nth_ticks_handlers = {}
+    on_init = {},
+    on_load = {},
+    on_configuration_changed = {},
+    nth_ticks_handlers = {},
     events = {}
 }
 
