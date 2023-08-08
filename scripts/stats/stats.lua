@@ -157,24 +157,19 @@ local function calculate_pollution(player)
 end
 
 
-self.get_common_stats = function(player_index)
-    local kill_counts = calculate_killed_enemy_count(player_index)
+self.get_stats = function(player)
+    local kill_counts = calculate_killed_enemy_count(player.index)
 
     return {
-        [self.stats.game_time] = calculate_game_time(player_index),
+        [self.stats.game_time] = calculate_game_time(player.index),
         [self.stats.evolution_percentage] = calculate_evolution_percentage(),
+        [self.stats.pollution] = calculate_pollution(player),
         [self.stats.online_players_count] = calculate_online_players_count(),
         [self.stats.dead_players_count] = calculate_dead_players_count(),
         [self.stats.killed_biters_count] = kill_counts[self.stats.killed_biters_count],
         [self.stats.killed_worms_count] = kill_counts[self.stats.killed_worms_count],
         [self.stats.destroyed_nests_count] = kill_counts[self.stats.killed_worms_count],
         [self.stats.killed_enemy_count] = kill_counts[self.stats.killed_enemy_count]
-    }
-end
-
-self.get_player_stats = function(player)
-    local stats = {
-        [self.stats.pollution] = calculate_pollution(player)
     }
 end
 
