@@ -6,7 +6,7 @@ local self = {
     events = {}
 }
 
-self.register_event = function(name, handler)
+function self.register_event(name, handler)
     if not name or type(name) ~= "string" or name == "" then
         error("Wrong type of the event name.")
     end

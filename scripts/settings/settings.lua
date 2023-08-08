@@ -49,7 +49,7 @@ self.thousand_separators = {
 self.thousand_separators_default = self.thousand_separators.no
 
 
-self.get = function(player_index, name)
+function self.get(player_index, name)
     if not global.settings then
         return
     end
@@ -61,7 +61,7 @@ self.get = function(player_index, name)
     return global.settings[player_index][name]
 end
 
-self.set = function(player_index, name, value)
+function self.set(player_index, name, value)
     if not global.settings then
         global.settings = {}
     end
@@ -70,7 +70,7 @@ self.set = function(player_index, name, value)
         global.settings[player_index] = {}
     end
     
-    return global.settings[player_index][name] = value
+    global.settings[player_index][name] = value
 end
 
 

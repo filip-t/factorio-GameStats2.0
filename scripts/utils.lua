@@ -7,7 +7,7 @@ local self = {
 }
 
 
-self.spell_index = function(num)
+function self.spell_index(num)
     local last_digit = num % 10
 
     if last_digit == 1 then
@@ -19,7 +19,7 @@ self.spell_index = function(num)
     return 3
 end
 
-self.separate_thousands = function(number, separator)
+function self.separate_thousands(number, separator)
     if number < 1000 then
         return number
     end
@@ -40,20 +40,20 @@ self.separate_thousands = function(number, separator)
     return table.concat(triads, separator)
 end
 
-self.is_entity_type = function(what_type, entity_name)
+function self.is_entity_type(what_type, entity_name)
     local prototype = game.entity_prototypes[entity_name]
     return prototype and prototype.type == what_type
 end
 
-self.is_biter = function(entity_name)
+function self.is_biter(entity_name)
     return is_entity_type("unit", entity_name)
 end
 
-self.is_spawner = function(entity_name)
+function self.is_spawner(entity_name)
     return is_entity_type("unit-spawner", entity_name)
 end
 
-self.is_worm = function(entity_name)
+function self.is_worm(entity_name)
     return is_entity_type("turret", entity_name)
 end
 
