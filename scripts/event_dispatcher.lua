@@ -7,8 +7,8 @@ local self = {
 }
 
 function self.register_event(name, handler)
-    if not name or type(name) ~= "string" or name == "" then
-        error("Wrong type of the event name.")
+    if not name then
+        error("Event is nil.")
     end
 
     if name == "on_nth_tick" then
@@ -66,7 +66,7 @@ function self.register_event(name, handler)
         return
     end
 
-    script.on_even(name, function(event)
+    script.on_event(name, function(event)
         for _, event_handler in pairs(self.events[name]) do
             event_handler(event)
         end

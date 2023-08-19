@@ -1,52 +1,44 @@
+local option_names = {
+    "update_period",
+    "columns"
+}
+
 self = {
-    show_background = "show_background",
-    float_stats = "float_stats",
-    align_stats = "align_stats",
-    time_format = "time_format",
-    number_format = "number_format",
-    thousand_separator = "thousand_separator",
-    columns = "columns"
+    update_period_default = 1,
+    options = {}
 }
 
-self.show_background = {
-    no = false,
-    yes = true
-}
-self.show_background_deafult = self.show_background.yes
-
-self.float_stats = {
-    no = false,
-    yes = true
-}
-self.float_stats.default = self.float_stats.no
+for _, name in pairs(option_names) do
+    self.options[name] = name
+end
 
 self.align_stats = {
     no = "no",
     left = "left",
     right = "right"
 }
-self.float_stats_default = self.float_stats.left
 
 self.time_formats = {
     hours = "hours",
     words = "words",
+    suffix = "suffix",
+    letters = "letters",
     slashes = "slashes"
 }
-self.time_formats_default = self.time_formats.hours
 
 self.number_formats = {
     full = "full",
-    human_readable = "human_readable"
+    round = "round",
+    space = "space",
+    comma = "comma",
+    apostrophe = "apostrophe"
 }
-self.time_formats_default = self.time_formats.full
 
 self.thousand_separators = {
-    no = "",
     space = " ",
     comma = ",",
     apostrophe = "'"
 }
-self.thousand_separators_default = self.thousand_separators.no
 
 
 function self.get(player_index, name)
@@ -57,7 +49,7 @@ function self.get(player_index, name)
     if not global.settings[player_index] then
         return
     end
-    
+
     return global.settings[player_index][name]
 end
 
@@ -69,9 +61,14 @@ function self.set(player_index, name, value)
     if not global.settings[player_index] then
         global.settings[player_index] = {}
     end
-    
+
     global.settings[player_index][name] = value
 end
 
+
+self.ui = require("__GameStats__/scripts/settings/ui")
+self.controller = require("__GameStats__/scripts/settings/controller")
+
+self.controller.init(self)
 
 return self

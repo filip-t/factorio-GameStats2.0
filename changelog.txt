@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+  Features
+    - Added the possibility to customize columns and fields in them.
+    - Added the possibility to display stats in a floating window.
+    - Added new date formats.
+    - Added new number formats.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.0.3
   Bugfixes:
     - Fixed the crash of the game due to a deleted table field.
