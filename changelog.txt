@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+  Features
+    - Added global pollution statistics on the current surface.
+    
+---------------------------------------------------------------------------------------------------
 Version: 1.1.0
   Features
     - Added the possibility to customize columns and fields in them.

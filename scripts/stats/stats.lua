@@ -187,19 +187,23 @@ local function calculate_killed_enemy_count(player)
 end
 
 local function calculate_pollution(player)
-    local pollution = 0
+    local surface = player.surface
+    local position = player.position
+    local pollution = surface.get_pollution(position)
 
-    if player and player.character then
-        local surface = player.character.surface
-        local position = player.character.position
-
-        pollution = surface.get_pollution(position)
-        pollution = math.floor(pollution * 100) / 100
-    end
+    pollution = math.floor(pollution * 100) / 100
 
     return pollution
 end
 
+local function calculate_global_pollution(player)
+    local surface = player.surface
+    local pollution = surface.get_total_pollution()
+
+    pollution = math.floor(pollution * 100) / 100
+
+    return pollution
+end
 
 local self = {}
 
@@ -208,6 +212,7 @@ self.stat_names = {
     "evolution_percentage",
     "online_players_count",
     "pollution",
+    "global_pollution",
     "dead_players_count",
     "killed_biters_count",
     "killed_worms_count",
@@ -240,6 +245,7 @@ function self.get_stats(player)
         [self.stats.game_time] = calculate_game_time(player),
         [self.stats.evolution_percentage] = calculate_evolution_percentage(),
         [self.stats.pollution] = calculate_pollution(player),
+        [self.stats.global_pollution] = calculate_global_pollution(player),
         [self.stats.online_players_count] = calculate_online_players_count(),
         [self.stats.dead_players_count] = calculate_dead_players_count(player),
         [self.stats.killed_biters_count] = kill_counts[self.stats.killed_biters_count],
