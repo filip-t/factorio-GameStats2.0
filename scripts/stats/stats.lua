@@ -34,6 +34,12 @@ local function separate_thousands(number, separator)
     return table.concat(triads, separator)
 end
 
+local function format_fractions(number)
+    local whole = math.floor(number)
+    local fraction = (number - whole) * 100
+    return string.format("%d.%02d", whole, fraction)
+end
+
 local function is_entity_type(what_type, entity_name)
     local prototype = game.entity_prototypes[entity_name]
     -- game.print(prototype.type)
@@ -166,16 +172,16 @@ local function calculate_killed_enemy_count(player)
     local number_format =  player.mod_settings.gamestats_number_format.value
 
     if number_format == Settings.number_formats.round then
-        killed_biters_count = util.format_number(killed_biters_count, true)
-        killed_worms_count = util.format_number(killed_worms_count, true)
-        destroyed_nests_count = util.format_number(destroyed_nests_count, true)
-        total_kill_count = util.format_number(total_kill_count, true)
+        killed_biters_count = util.format_number(killed_biters_count, true) ---@diagnostic disable-line: cast-local-type
+        killed_worms_count = util.format_number(killed_worms_count, true) ---@diagnostic disable-line: cast-local-type
+        destroyed_nests_count = util.format_number(destroyed_nests_count, true) ---@diagnostic disable-line: cast-local-type
+        total_kill_count = util.format_number(total_kill_count, true) ---@diagnostic disable-line: cast-local-type
     elseif number_format ~= Settings.number_formats.full then
         local thousand_separator = Settings.thousand_separators[number_format]
-        killed_biters_count = separate_thousands(killed_biters_count, thousand_separator)
-        killed_worms_count = separate_thousands(killed_worms_count, thousand_separator)
-        destroyed_nests_count = separate_thousands(destroyed_nests_count, thousand_separator)
-        total_kill_count = separate_thousands(total_kill_count, thousand_separator)
+        killed_biters_count = separate_thousands(killed_biters_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        killed_worms_count = separate_thousands(killed_worms_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        destroyed_nests_count = separate_thousands(destroyed_nests_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        total_kill_count = separate_thousands(total_kill_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
     end
 
     return {
@@ -193,7 +199,7 @@ local function calculate_pollution(player)
 
     pollution = math.floor(pollution * 100) / 100
 
-    return pollution
+    return format_fractions(pollution)
 end
 
 local function calculate_global_pollution(player)
@@ -202,7 +208,7 @@ local function calculate_global_pollution(player)
 
     pollution = math.floor(pollution * 100) / 100
 
-    return pollution
+    return format_fractions(pollution)
 end
 
 local self = {}

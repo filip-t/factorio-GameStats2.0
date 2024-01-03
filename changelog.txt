@@ -1,16 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.3
+  Features:
+    - Added formating fractional part of a pollution numbers.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.1.2
   Bugfixes:
     - Fixed the multiplayer compatibility.
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.1
-  Features
+  Features:
     - Added global pollution statistics on the current surface.
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.0
-  Features
+  Features:
     - Added the possibility to customize columns and fields in them.
     - Added the possibility to display stats in a floating window.
     - Added new date formats.

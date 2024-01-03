@@ -474,7 +474,7 @@ local self = {
             [parent.ui.names.cancel_button] = close_click
         }
 
-        self.init = nil
+        self.init = nil ---@diagnostic disable-line: undefined-global
     end
 }
 
