@@ -42,6 +42,10 @@ self.thousand_separators = {
 
 
 function self.get(player_index, name)
+    if not global then
+        return
+    end
+
     if not global.settings then
         return
     end
@@ -54,6 +58,10 @@ function self.get(player_index, name)
 end
 
 function self.set(player_index, name, value)
+    if not global then
+        global = {}
+    end
+
     if not global.settings then
         global.settings = {}
     end

@@ -8,11 +8,11 @@ style.stats__container = {
     padding = 0
 }
 
-style.stats__graphicless_container = {
-    type = "frame_style",
-    parent = "graphicless_frame",
-    padding = 0
-}
+--style.stats__graphicless_container = {
+--    type = "frame_style",
+--    parent = "graphicless_frame",
+--    padding = 0
+--}
 
 style.stats__content = {
     type = "frame_style",

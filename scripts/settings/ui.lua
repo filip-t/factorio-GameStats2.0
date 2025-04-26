@@ -63,7 +63,7 @@ function self.open(player)
     local close_button = header.add{
         type="sprite-button",
         name=self.names.close_button,
-        sprite="utility/close_white",
+        sprite="utility/close",
         hovered_sprite="utility/close_black",
         clicked_sprite="utility/close_black",
         style="close_button"

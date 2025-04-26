@@ -41,7 +41,7 @@ local function format_fractions(number)
 end
 
 local function is_entity_type(what_type, entity_name)
-    local prototype = game.entity_prototypes[entity_name]
+    local prototype = prototypes.entity[entity_name]
     -- game.print(prototype.type)
     return prototype and prototype.type == what_type
 end
@@ -126,7 +126,7 @@ local function calculate_game_time(player)
 end
 
 local function calculate_evolution_percentage()
-    local evolution_percentage = game.forces.enemy.evolution_factor * 100
+    local evolution_percentage = game.forces.enemy.get_evolution_factor() * 100
     local whole_number = math.floor(evolution_percentage)
     local fractional_part = math.floor((evolution_percentage - whole_number) * 10000)
 
@@ -138,7 +138,7 @@ local function calculate_online_players_count()
 end
 
 local function calculate_dead_players_count(player)
-    return player.force.kill_count_statistics.output_counts["character"] or 0
+    return player.force.get_kill_count_statistics('nauvis').output_counts["character"] or 0
 end
 
 local function calculate_killed_enemy_count(player)
@@ -157,7 +157,7 @@ local function calculate_killed_enemy_count(player)
     -- killed_worms_count = killed_worms_count + 17000000
     -- destroyed_nests_count = destroyed_nests_count + 5000000
 
-    for entity_name, kill_count in pairs(player.force.kill_count_statistics.input_counts) do
+    for entity_name, kill_count in pairs(player.force.get_kill_count_statistics('nauvis').input_counts) do
         if is_biter(entity_name) then
             killed_biters_count = killed_biters_count + kill_count
         elseif is_worm(entity_name) then
