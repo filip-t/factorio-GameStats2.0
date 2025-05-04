@@ -1,4 +1,4 @@
-local name_prefix = "GameStats_settings_ui__"
+local name_prefix = "GameStats20_settings_ui__"
 local names = {}
 local strings = {
     "window",
@@ -100,36 +100,36 @@ function self.open(player)
     local column_up_button = column_buttons.add{
         type="sprite-button",
         name=self.names.column_up_button,
-        sprite="gamestats__arrow_up_white",
-        hovered_sprite="gamestats__arrow_up_black",
-        clicked_sprite="gamestats__arrow_up_black",
+        sprite="gamestats20__arrow_up_white",
+        hovered_sprite="gamestats20__arrow_up_black",
+        clicked_sprite="gamestats20__arrow_up_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.column_up"}
     }
     local column_add_button = column_buttons.add{
         type="sprite-button",
         name=self.names.column_add_button,
-        sprite="gamestats__plus_white",
-        hovered_sprite="gamestats__plus_black",
-        clicked_sprite="gamestats__plus_black",
+        sprite="gamestats20__plus_white",
+        hovered_sprite="gamestats20__plus_black",
+        clicked_sprite="gamestats20__plus_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.column_add"}
     }
     local column_del_button = column_buttons.add{
         type="sprite-button",
         name=self.names.column_delete_button,
-        sprite="gamestats__minus_white",
-        hovered_sprite="gamestats__minus_black",
-        clicked_sprite="gamestats__minus_black",
+        sprite="gamestats20__minus_white",
+        hovered_sprite="gamestats20__minus_black",
+        clicked_sprite="gamestats20__minus_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.column_delete"}
     }
     local column_down_button = column_buttons.add{
         type="sprite-button",
         name=self.names.column_down_button,
-        sprite="gamestats__arrow_down_white",
-        hovered_sprite="gamestats__arrow_down_black",
-        clicked_sprite="gamestats__arrow_down_black",
+        sprite="gamestats20__arrow_down_white",
+        hovered_sprite="gamestats20__arrow_down_black",
+        clicked_sprite="gamestats20__arrow_down_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.column_down"}
     }
@@ -153,36 +153,36 @@ function self.open(player)
     local stat_up_button = stats_buttons.add{
         type="sprite-button",
         name=self.names.stat_up_button,
-        sprite="gamestats__arrow_up_white",
-        hovered_sprite="gamestats__arrow_up_black",
-        clicked_sprite="gamestats__arrow_up_black",
+        sprite="gamestats20__arrow_up_white",
+        hovered_sprite="gamestats20__arrow_up_black",
+        clicked_sprite="gamestats20__arrow_up_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.stat_up"}
     }
     local stat_add_button = stats_buttons.add{
         type="sprite-button",
         name=self.names.stat_add_button,
-        sprite="gamestats__arrow_left_white",
-        hovered_sprite="gamestats__arrow_left_black",
-        clicked_sprite="gamestats__arrow_left_black",
+        sprite="gamestats20__arrow_left_white",
+        hovered_sprite="gamestats20__arrow_left_black",
+        clicked_sprite="gamestats20__arrow_left_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.stat_add"}
     }
     local stat_del_button = stats_buttons.add{
         type="sprite-button",
         name=self.names.stat_delete_button,
-        sprite="gamestats__arrow_right_white",
-        hovered_sprite="gamestats__arrow_right_black",
-        clicked_sprite="gamestats__arrow_right_black",
+        sprite="gamestats20__arrow_right_white",
+        hovered_sprite="gamestats20__arrow_right_black",
+        clicked_sprite="gamestats20__arrow_right_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.stat_delete"}
     }
     local stat_down_button = stats_buttons.add{
         type="sprite-button",
         name=self.names.stat_down_button,
-        sprite="gamestats__arrow_down_white",
-        hovered_sprite="gamestats__arrow_down_black",
-        clicked_sprite="gamestats__arrow_down_black",
+        sprite="gamestats20__arrow_down_white",
+        hovered_sprite="gamestats20__arrow_down_black",
+        clicked_sprite="gamestats20__arrow_down_black",
         style = "stats_settings__action_button",
         tooltip = {"settings.stat_down"}
     }

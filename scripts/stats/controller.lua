@@ -1,27 +1,27 @@
 local self = {}
 
 function self.on_configuration_changed(data)
-    if data.mod_changes.GameStats and data.mod_changes.GameStats.old_version == "1.0.3" then
+    if data.mod_changes.GameStats20 and data.mod_changes.GameStats20.old_version == "1.0.3" then
         for _, player in pairs(game.players) do
             local gui = player.gui.top
 
-            if gui.GameStats__top_frame then
-                gui.GameStats__top_frame.destroy()
+            if gui.GameStats20__top_frame then
+                gui.GameStats20__top_frame.destroy()
             end
 
-            if gui.GameStats__container then
-                gui.GameStats__container.destroy()
+            if gui.GameStats20__container then
+                gui.GameStats20__container.destroy()
             end
 
             if gui.mod_gui_top_frame then
                 gui = gui.mod_gui_top_frame.mod_gui_inner_frame
 
-                if gui.GameStats__top_frame then
-                    gui.GameStats__top_frame.destroy()
+                if gui.GameStats20__top_frame then
+                    gui.GameStats20__top_frame.destroy()
                 end
 
-                if gui.GameStats__container then
-                    gui.GameStats__container.destroy()
+                if gui.GameStats20__container then
+                    gui.GameStats20__container.destroy()
                 end
             end
 
@@ -42,7 +42,7 @@ function self.on_nth_tick(event)
     local seconds = event.tick / event.nth_tick
 
     for _, player in pairs(game.connected_players) do
-        local update_period = player.mod_settings.gamestats_update_period.value
+        local update_period = player.mod_settings.gamestats20_update_period.value
 
         if seconds % update_period == 0 then
             Stats.ui.update(player)
@@ -81,9 +81,9 @@ function self.align(player)
 end
 
 self.handlers = {
-    gamestats_show_background = self.show_background,
-    gamestats_float_stats = self.float_stats,
-    gamestats_align = self.align
+    gamestats20_show_background = self.show_background,
+    gamestats20_float_stats = self.float_stats,
+    gamestats20_align = self.align
 }
 
 function self.on_gui_click(event)

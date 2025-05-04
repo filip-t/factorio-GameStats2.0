@@ -1,4 +1,4 @@
-local name_prefix = "GameStats_ui__"
+local name_prefix = "GameStats20_ui__"
 local names = {}
 local strings = {
     "container",
@@ -21,8 +21,8 @@ local function get_main_flow(player, create)
 
     create = create or true
 
-    local show_background = player.mod_settings.gamestats_show_background.value
-    local float_stats = player.mod_settings.gamestats_float_stats.value
+    local show_background = player.mod_settings.gamestats20_show_background.value
+    local float_stats = player.mod_settings.gamestats20_float_stats.value
     local gui
 
     if float_stats then
@@ -82,11 +82,11 @@ function self.align(player)
         return
     end
 
-    if player.mod_settings.gamestats_float_stats.value then
+    if player.mod_settings.gamestats20_float_stats.value then
         return
     end
 
-    local align = player.mod_settings.gamestats_align.value
+    local align = player.mod_settings.gamestats20_align.value
 
     if align == Settings.align_stats.no then
         return
@@ -115,7 +115,7 @@ function self.update(player)
     end
 
     local main_flow = get_main_flow(player)
-    local float_stats = player.mod_settings.gamestats_float_stats.value
+    local float_stats = player.mod_settings.gamestats20_float_stats.value
 
     local side_column = main_flow.content[names.side_column] or main_flow.content.add{
         type = "flow",
@@ -126,9 +126,9 @@ function self.update(player)
     local settings_button = side_column[names.settings_button] or side_column.add{
         type = "sprite-button",
         name = names.settings_button,
-        sprite = "gamestats__list_white",
-        hovered_sprite="gamestats__list_black",
-        clicked_sprite="gamestats__list_black",
+        sprite = "gamestats20__list_white",
+        hovered_sprite="gamestats20__list_black",
+        clicked_sprite="gamestats20__list_black",
         style = "stats__settings_button",
         tooltip={"settings.settings"}
     }

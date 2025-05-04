@@ -1,3 +1,3 @@
-EventDispatcher = require("__GameStats__/scripts/event_dispatcher")
-Settings = require("__GameStats__/scripts/settings/settings")
-Stats = require("__GameStats__/scripts/stats/stats")
+EventDispatcher = require("__GameStats20__/scripts/event_dispatcher")
+Settings = require("__GameStats20__/scripts/settings/settings")
+Stats = require("__GameStats20__/scripts/stats/stats")

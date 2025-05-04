@@ -72,7 +72,7 @@ local function calculate_game_time(player)
     local minutes = 0
     local seconds = 0
 
-    local time_format =  player.mod_settings.gamestats_time_format.value
+    local time_format =  player.mod_settings.gamestats20_time_format.value
 
     local seconds_in_minute = 60
     local second_in_hour = seconds_in_minute * 60
@@ -169,7 +169,7 @@ local function calculate_killed_enemy_count(player)
 
     total_kill_count = killed_biters_count + killed_worms_count + destroyed_nests_count
 
-    local number_format =  player.mod_settings.gamestats_number_format.value
+    local number_format =  player.mod_settings.gamestats20_number_format.value
 
     if number_format == Settings.number_formats.round then
         killed_biters_count = util.format_number(killed_biters_count, true) ---@diagnostic disable-line: cast-local-type
@@ -262,8 +262,8 @@ function self.get_stats(player)
 end
 
 
-self.ui = require("__GameStats__/scripts/stats/ui")
-self.controller = require("__GameStats__/scripts/stats/controller")
+self.ui = require("__GameStats20__/scripts/stats/ui")
+self.controller = require("__GameStats20__/scripts/stats/controller")
 
 
 return self

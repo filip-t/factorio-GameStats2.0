@@ -74,8 +74,8 @@ function self.set(player_index, name, value)
 end
 
 
-self.ui = require("__GameStats__/scripts/settings/ui")
-self.controller = require("__GameStats__/scripts/settings/controller")
+self.ui = require("__GameStats20__/scripts/settings/ui")
+self.controller = require("__GameStats20__/scripts/settings/controller")
 
 self.controller.init(self)
 
