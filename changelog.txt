@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.1
+  Bugfixes:
+    - Fixed all occurrences of previous mod name causing errors.
+
+---------------------------------------------------------------------------------------------------
+Version: 1.2.0
+  Changes:
+    - Updated to Factorio 2.0 API.
+    - Renamed the mod to "GameStats 2.0".
+
+---------------------------------------------------------------------------------------------------
 Version: 1.1.4
   Bugfixes:
     - Fixed typo in RU locale.
