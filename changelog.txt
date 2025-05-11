@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.2
+  Features:
+    - Added kill counts for Space Age enemies (did my best on the RU locale).
+  Bugfixes:
+    - Fixed possible bug with settings not being saved correctly
+
+---------------------------------------------------------------------------------------------------
 Version: 1.2.1
   Bugfixes:
     - Fixed all occurrences of previous mod name causing errors.

@@ -58,6 +58,10 @@ local function is_spawner(entity_name)
     return is_entity_type("unit-spawner", entity_name)
 end
 
+local function is_demolisher(entity_name)
+    return is_entity_type("segmented-unit", entity_name)
+end
+
 local function calculate_game_time(player)
     local game_seconds = math.floor(game.ticks_played / 60)
 
@@ -138,13 +142,21 @@ local function calculate_online_players_count()
 end
 
 local function calculate_dead_players_count(player)
-    return player.force.get_kill_count_statistics('nauvis').output_counts["character"] or 0
+    local dead_players_count = 0
+    for _, surface in pairs(game.surfaces) do
+        dead_players_count = dead_players_count + (player.force.get_kill_count_statistics(surface.name).output_counts["character"] or 0)
+    end
+
+    return dead_players_count
 end
 
 local function calculate_killed_enemy_count(player)
     local killed_biters_count = 0
     local killed_worms_count = 0
     local destroyed_nests_count = 0
+    local killed_demolishers_count = 0
+    local killed_pentapods_count = 0
+    local destroyed_pentapod_nests_count = 0
     local total_kill_count = 0
 
     -- For testing when numbers > 1k
@@ -156,18 +168,39 @@ local function calculate_killed_enemy_count(player)
     -- killed_biters_count = killed_biters_count + 256000000
     -- killed_worms_count = killed_worms_count + 17000000
     -- destroyed_nests_count = destroyed_nests_count + 5000000
+    for _, surface in pairs(game.surfaces) do
+        if surface.name == "nauvis" then
+            for entity_name, kill_count in pairs(player.force.get_kill_count_statistics('nauvis').input_counts) do
+                if is_biter(entity_name) then
+                    killed_biters_count = killed_biters_count + kill_count
+                elseif is_worm(entity_name) then
+                    killed_worms_count = killed_worms_count + kill_count
+                elseif is_spawner(entity_name) then
+                    destroyed_nests_count = destroyed_nests_count + kill_count
+                end
+            end
+        end
 
-    for entity_name, kill_count in pairs(player.force.get_kill_count_statistics('nauvis').input_counts) do
-        if is_biter(entity_name) then
-            killed_biters_count = killed_biters_count + kill_count
-        elseif is_worm(entity_name) then
-            killed_worms_count = killed_worms_count + kill_count
-        elseif is_spawner(entity_name) then
-            destroyed_nests_count = destroyed_nests_count + kill_count
+        if surface.name == "vulcanus" then
+            for entity_name, kill_count in pairs(player.force.get_kill_count_statistics('vulcanus').input_counts) do
+                if is_demolisher(entity_name) then
+                    killed_demolishers_count = killed_demolishers_count + kill_count
+                end
+            end
+        end
+
+        if surface.name == "gleba" then
+            for entity_name, kill_count in pairs(player.force.get_kill_count_statistics('gleba').input_counts) do
+                if is_biter(entity_name) then
+                    killed_pentapods_count = killed_pentapods_count + kill_count
+                elseif is_spawner(entity_name) then
+                    destroyed_pentapod_nests_count = destroyed_pentapod_nests_count + kill_count
+                end
+            end
         end
     end
 
-    total_kill_count = killed_biters_count + killed_worms_count + destroyed_nests_count
+    total_kill_count = killed_biters_count + killed_worms_count + destroyed_nests_count + killed_demolishers_count + killed_pentapods_count + destroyed_pentapod_nests_count
 
     local number_format =  player.mod_settings.gamestats20_number_format.value
 
@@ -175,21 +208,35 @@ local function calculate_killed_enemy_count(player)
         killed_biters_count = util.format_number(killed_biters_count, true) ---@diagnostic disable-line: cast-local-type
         killed_worms_count = util.format_number(killed_worms_count, true) ---@diagnostic disable-line: cast-local-type
         destroyed_nests_count = util.format_number(destroyed_nests_count, true) ---@diagnostic disable-line: cast-local-type
+        killed_demolishers_count = util.format_number(killed_demolishers_count, true) ---@diagnostic disable-line: cast-local-type
+        killed_pentapods_count = util.format_number(killed_pentapods_count, true) ---@diagnostic disable-line: cast-local-type
+        destroyed_pentapod_nests_count = util.format_number(destroyed_pentapod_nests_count, true) ---@diagnostic disable-line: cast-local-type
         total_kill_count = util.format_number(total_kill_count, true) ---@diagnostic disable-line: cast-local-type
     elseif number_format ~= Settings.number_formats.full then
         local thousand_separator = Settings.thousand_separators[number_format]
         killed_biters_count = separate_thousands(killed_biters_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
         killed_worms_count = separate_thousands(killed_worms_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
         destroyed_nests_count = separate_thousands(destroyed_nests_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        killed_demolishers_count = separate_thousands(killed_demolishers_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        killed_pentapods_count = separate_thousands(killed_pentapods_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
+        destroyed_pentapod_nests_count = separate_thousands(destroyed_pentapod_nests_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
         total_kill_count = separate_thousands(total_kill_count, thousand_separator) ---@diagnostic disable-line: cast-local-type
     end
 
-    return {
+    local output = {
         [Stats.stats.killed_biters_count] = killed_biters_count,
         [Stats.stats.killed_worms_count] = killed_worms_count,
         [Stats.stats.destroyed_nests_count] = destroyed_nests_count,
         [Stats.stats.killed_enemy_count] = total_kill_count
     }
+
+    if script.active_mods['space-age'] then
+        output[Stats.stats.killed_demolishers_count] = killed_demolishers_count
+        output[Stats.stats.killed_pentapods_count] = killed_pentapods_count
+        output[Stats.stats.destroyed_pentapod_nests_count] = destroyed_pentapod_nests_count
+    end
+
+    return output
 end
 
 local function calculate_pollution(player)
@@ -226,6 +273,12 @@ self.stat_names = {
     "killed_enemy_count"
 }
 
+if script.active_mods["space-age"] then
+    self.stat_names[#self.stat_names + 1] = "killed_demolishers_count"
+    self.stat_names[#self.stat_names + 1] = "killed_pentapods_count"
+    self.stat_names[#self.stat_names + 1] = "destroyed_pentapod_nests_count"
+end
+
 self.stats = {}
 for _, stat_name in pairs(self.stat_names) do
     self.stats[stat_name] = stat_name
@@ -247,7 +300,7 @@ self.default_columns = {
 function self.get_stats(player)
     local kill_counts = calculate_killed_enemy_count(player)
 
-    return {
+    local output_stats = {
         [self.stats.game_time] = calculate_game_time(player),
         [self.stats.evolution_percentage] = calculate_evolution_percentage(),
         [self.stats.pollution] = calculate_pollution(player),
@@ -259,6 +312,14 @@ function self.get_stats(player)
         [self.stats.destroyed_nests_count] = kill_counts[self.stats.destroyed_nests_count],
         [self.stats.killed_enemy_count] = kill_counts[self.stats.killed_enemy_count]
     }
+
+    if script.active_mods["space-age"] then
+        output_stats[self.stats.killed_demolishers_count] = kill_counts[self.stats.killed_demolishers_count]
+        output_stats[self.stats.killed_pentapods_count] = kill_counts[self.stats.killed_pentapods_count]
+        output_stats[self.stats.destroyed_pentapod_nests_count] = kill_counts[self.stats.destroyed_pentapod_nests_count]
+    end
+
+    return output_stats
 end
 
 
