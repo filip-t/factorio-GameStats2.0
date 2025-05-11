@@ -42,35 +42,27 @@ self.thousand_separators = {
 
 
 function self.get(player_index, name)
-    if not global then
+    if not storage.settings then
         return
     end
 
-    if not global.settings then
+    if not storage.settings[player_index] then
         return
     end
 
-    if not global.settings[player_index] then
-        return
-    end
-
-    return global.settings[player_index][name]
+    return storage.settings[player_index][name]
 end
 
 function self.set(player_index, name, value)
-    if not global then
-        global = {}
+    if not storage.settings then
+        storage.settings = {}
     end
 
-    if not global.settings then
-        global.settings = {}
+    if not storage.settings[player_index] then
+        storage.settings[player_index] = {}
     end
 
-    if not global.settings[player_index] then
-        global.settings[player_index] = {}
-    end
-
-    global.settings[player_index][name] = value
+    storage.settings[player_index][name] = value
 end
 
 
