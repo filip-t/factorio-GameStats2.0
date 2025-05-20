@@ -43,7 +43,7 @@ data:extend {
         name = "gamestats20_number_format",
         setting_type = "runtime-per-user",
         default_value = "full",
-        allowed_values = {"full", "round", "space", "comma", "apostrophe"},
+        allowed_values = {"full", "round", "space", "comma", "dot", "apostrophe"},
         order="f"
     }
 }

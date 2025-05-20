@@ -268,8 +268,10 @@ function self.update_current_column_stats(player, selected_index)
         current_column_stats_list.add_item({"stats."..stat})
     end
 
-    if #current_column_stats_list.items > 0 then
-        current_column_stats_list.selected_index = (selected_index or 1)
+    if selected_index and #current_column_stats_list.items > 0 and selected_index <= #current_column_stats_list.items then
+        current_column_stats_list.selected_index = selected_index
+    else
+        current_column_stats_list.selected_index = #current_column_stats_list.items or nil
     end
 end
 
@@ -304,8 +306,10 @@ function self.update_available_stats(player, selected_index)
        stats_list.add_item({"stats."..stat})
     end
 
-    if #stats_list.items > 0 then
-        stats_list.selected_index = selected_index or 1
+    if selected_index and #stats_list.items > 0 and selected_index <= #stats_list.items then
+        stats_list.selected_index = selected_index
+    else
+        stats_list.selected_index = #stats_list.items or nil
     end
 end
 

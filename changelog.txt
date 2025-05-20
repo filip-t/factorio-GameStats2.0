@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.3
+  Features:
+    - Added statistics for distances travelled on foot and in vehicles.
+    - Added a dot separator to the thousands separators.
+    - Added Polish locale.
+  Bugfixes:
+    - Fixed typos in code
+---------------------------------------------------------------------------------------------------
 Version: 1.2.2
   Features:
     - Added kill counts for Space Age enemies (did my best on the RU locale).

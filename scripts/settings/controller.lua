@@ -338,12 +338,6 @@ local function stat_add_click(player)
     Settings.ui.update_current_column_stats(player, #current_column_stats)
 
     if not show_all.state then
-        selected_stat_index = selected_stat_index - 1
-
-        if selected_stat_index == 0 then
-            selected_stat_index = 1
-        end
-
         Settings.ui.update_available_stats(player, selected_stat_index)
     end
 end
@@ -385,12 +379,6 @@ local function stat_delete_click(player)
     local available_stats = stats_list.tags.available_stats
     table.insert(available_stats, selected_stat_name)
     stats_list.tags = {available_stats=available_stats}
-
-    selected_stat_index = selected_stat_index -1
-
-    if selected_stat_index == 0 then
-        selected_stat_index = 1
-    end
 
     Settings.ui.update_current_column_stats(player, selected_stat_index)
 
