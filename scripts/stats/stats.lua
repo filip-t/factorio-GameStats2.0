@@ -258,6 +258,13 @@ local function calculate_global_pollution(player)
     return format_fractions(pollution)
 end
 
+local function calculate_vehicle_distance(player)
+    return storage.gamestats20[player.index].distance_car +
+           storage.gamestats20[player.index].distance_tank +
+           storage.gamestats20[player.index].distance_train +
+           storage.gamestats20[player.index].distance_spider
+end
+
 local self = {}
 
 self.stat_names = {
@@ -267,6 +274,13 @@ self.stat_names = {
     "pollution",
     "global_pollution",
     "dead_players_count",
+    "distance_foot",
+    "distance_car",
+    "distance_tank",
+    "distance_train",
+    "distance_spider",
+    "distance_vehicle",
+    "distance_total",
     "killed_biters_count",
     "killed_worms_count",
     "destroyed_nests_count",
@@ -299,6 +313,7 @@ self.default_columns = {
 
 function self.get_stats(player)
     local kill_counts = calculate_killed_enemy_count(player)
+    local thousand_separator = Settings.thousand_separators[player.mod_settings.gamestats20_number_format.value]
 
     local output_stats = {
         [self.stats.game_time] = calculate_game_time(player),
@@ -307,6 +322,13 @@ function self.get_stats(player)
         [self.stats.global_pollution] = calculate_global_pollution(player),
         [self.stats.online_players_count] = calculate_online_players_count(),
         [self.stats.dead_players_count] = calculate_dead_players_count(player),
+        [self.stats.distance_foot] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_foot), thousand_separator),
+        [self.stats.distance_car] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_car), thousand_separator),
+        [self.stats.distance_tank] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_tank), thousand_separator),
+        [self.stats.distance_train] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_train), thousand_separator),
+        [self.stats.distance_spider] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_spider), thousand_separator),
+        [self.stats.distance_vehicle] = separate_thousands(math.floor(calculate_vehicle_distance(player)), thousand_separator),
+        [self.stats.distance_total] = separate_thousands(math.floor(storage.gamestats20[player.index].distance_foot + calculate_vehicle_distance(player)), thousand_separator),
         [self.stats.killed_biters_count] = kill_counts[self.stats.killed_biters_count],
         [self.stats.killed_worms_count] = kill_counts[self.stats.killed_worms_count],
         [self.stats.destroyed_nests_count] = kill_counts[self.stats.destroyed_nests_count],
