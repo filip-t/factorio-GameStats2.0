@@ -291,10 +291,10 @@ function self.update_available_stats(player, selected_index)
     local stats
 
     if show_all.state then
-        stats_title.caption = {"settings.all_fileds"}
+        stats_title.caption = {"settings.all_fields"}
         stats = Stats.stat_names
     else
-        stats_title.caption = {"settings.available_fileds"}
+        stats_title.caption = {"settings.available_fields"}
         stats = stats_list.tags.available_stats
     end
 
