@@ -31,13 +31,15 @@ self.number_formats = {
     round = "round",
     space = "space",
     comma = "comma",
+    dot = "dot",
     apostrophe = "apostrophe"
 }
 
 self.thousand_separators = {
     space = " ",
     comma = ",",
-    apostrophe = "'"
+    apostrophe = "'",
+    dot = "."
 }
 
 
