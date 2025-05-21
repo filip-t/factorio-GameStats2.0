@@ -313,7 +313,10 @@ self.default_columns = {
 
 function self.get_stats(player)
     local kill_counts = calculate_killed_enemy_count(player)
-    local thousand_separator = Settings.thousand_separators[player.mod_settings.gamestats20_number_format.value]
+    local thousand_separator = ""
+    if player.mod_settings.gamestats20_number_format.value ~= Settings.number_formats.full and player.mod_settings.gamestats20_number_format.value ~= Settings.number_formats.round then
+        thousand_separator = Settings.thousand_separators[player.mod_settings.gamestats20_number_format.value]
+    end
 
     local output_stats = {
         [self.stats.game_time] = calculate_game_time(player),
