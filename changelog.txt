@@ -1,4 +1,8 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.5
+  Bugfixes:
+    - Fixed error related to the disabled background option
+---------------------------------------------------------------------------------------------------
 Version: 1.2.4
   Changes:
     - Removed transparent window option for now - it is currently not working anyway.

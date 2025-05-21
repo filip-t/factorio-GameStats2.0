@@ -21,7 +21,7 @@ local function get_main_flow(player, create)
 
     create = create or true
 
-    local show_background = player.mod_settings.gamestats20_show_background.value
+    local show_background = true -- player.mod_settings.gamestats20_show_background.value -- temporarily set to true
     local float_stats = player.mod_settings.gamestats20_float_stats.value
     local gui
 
