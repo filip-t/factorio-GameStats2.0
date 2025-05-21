@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.4
+  Changes:
+    - Removed transparent window option for now - it is currently not working anyway.
+  Bugfixes:
+    - Fixed issue with migrations (error when loading the game).
+---------------------------------------------------------------------------------------------------
 Version: 1.2.3
   Features:
     - Added statistics for distances travelled on foot and in vehicles.

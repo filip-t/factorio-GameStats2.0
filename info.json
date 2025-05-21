@@ -1,9 +1,9 @@
 {
   "name": "GameStats20",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "title": "Game Stats 2.0",
-  "author": "Ajick",
-  "description": "The indicator of evolution, the number of killed biters and more. Original mod by Ajick. 2.0 compatible version by filip-t",
+  "author": "Pirate",
+  "description": "The indicator of evolution, the number of killed biters and more. Original mod by Ajick. 2.0 compatible version by Pirate",
   "factorio_version": "2.0",
   "dependencies": ["base >= 2.0"]
 }

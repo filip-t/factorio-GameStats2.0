@@ -8,13 +8,13 @@ data:extend {
         maximum_value = 300,
         order="a"
     },
-    {
-        type = "bool-setting",
-        name = "gamestats20_show_background",
-        setting_type = "runtime-per-user",
-        default_value = true,
-        order="b"
-    },
+    --{
+    --    type = "bool-setting",
+    --    name = "gamestats20_show_background",
+    --    setting_type = "runtime-per-user",
+    --    default_value = true,
+    --    order="b"
+    --},
     {
         type = "bool-setting",
         name = "gamestats20_float_stats",
